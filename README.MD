@@ -61,5 +61,16 @@ python3 log-analyzer.py --telegram
 python3 log-analyzer.py --reset
 ```
 
+### Choose the logdir
+
+You have many instances? 
+Pick your logdir via CLI:
+
+```
+python3 log-analyzer.py --logdir /opt/minetest/logs
+```
+
+
 
 Have fun :-)
+

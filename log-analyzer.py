@@ -6,7 +6,7 @@ import argparse
 
 
 
-from config import BOT_TOKEN, CHAT_ID, LOG_DIR, STATE_DIR
+from config import BOT_TOKEN, CHAT_ID, LOG_DIR
 
 
 # create the Telegram bot
@@ -21,16 +21,18 @@ action_counts = {}
 parser = argparse.ArgumentParser(description='Parse the latest log files and send the results to a Telegram bot.')
 parser.add_argument('--telegram', action='store_true', help='send results to Telegram bot')
 parser.add_argument('--reset', action='store_true', help='reset all state files')
-
+parser.add_argument('--logdir', help='set the log directory')
 
 
 # parse the command-line arguments
 args = parser.parse_args()
 
-
+if args.logdir:
+    LOG_DIR = args.logdir
+    
 # reset all state files if the --reset argument is specified
 if args.reset:
-    for root, dirs, files in os.walk(STATE_DIR):
+    for root, dirs, files in os.walk(LOG_DIR):
         for file in files:
             if file.endswith('.state'):
                 state_file = os.path.join(root, file)
@@ -42,7 +44,7 @@ for root, dirs, files in os.walk(LOG_DIR):
     for file in files:
         if file.endswith('.log'):
             log_file = os.path.join(root, file)
-            state_file = os.path.join(STATE_DIR, file + '.state')
+            state_file = os.path.join(LOG_DIR, file + '.state')
 
             # read the last line of the log file that was parsed
             last_line = ''

@@ -3,3 +3,6 @@ BOT_TOKEN = 'YOUR_BOT_TOKEN'
 
 # Telegram chat ID
 CHAT_ID = 'YOUR_CHAT_ID'
+
+# Where are the logs stored?
+LOG_DIR = 'logs'
