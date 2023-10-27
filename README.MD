@@ -18,7 +18,9 @@ Set it to the right dir in config.py
 
 ### (optional) Add it to your cron
 
-
+```
+* * * * * /usr/bin/python3 /opt/minetest/minetest-log-analyzer/log-analyzer.py --telegram
+```
 
 ## Usage
 
