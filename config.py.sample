@@ -1,0 +1,5 @@
+# Telegram bot access token
+BOT_TOKEN = 'YOUR_BOT_TOKEN'
+
+# Telegram chat ID
+CHAT_ID = 'YOUR_CHAT_ID'
