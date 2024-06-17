@@ -13,6 +13,9 @@ from config import BOT_TOKEN, CHAT_ID, LOG_DIR
 chat_messages = []
 action_counts = {}
 
+# add a dictionary to store the coordinates of each user's actions
+user_coordinates = {}
+
 # create a argument parser
 parser = argparse.ArgumentParser(description='Parse the latest log files and send the results to a Telegram bot.')
 parser.add_argument('--telegram', action='store_true', help='send results to Telegram bot')
@@ -42,6 +45,16 @@ if args.reset:
                 state_file = os.path.join(root, file)
                 os.remove(state_file)
 
+
+def calculate_center(coordinates):
+    sum_x = sum_y = 0
+    for coord in coordinates:
+        # x, y = map(int, re.findall(r'-?\d+', coord))  # extract x, y from the coordinate string
+        sum_x += coord[0]
+        sum_y += coord[1]
+    center_x = sum_x / len(coordinates)
+    center_y = sum_y / len(coordinates)
+    return center_x, center_y
 
 def clear():
  
@@ -83,6 +96,14 @@ def parseLog(log_file, state_file):
                 action_counts[user_name][action] = 0
             action_counts[user_name][action] += 1
 
+            # add the coordinates to the user's list of coordinates
+            coord_match = re.search(r'\((-?\d+),(-?\d+),(-?\d+)\)', line)
+            if coord_match:
+                coord = (int(coord_match.group(1)), int(coord_match.group(3)))  # (x, y)
+                if user_name not in user_coordinates:
+                    user_coordinates[user_name] = []
+                user_coordinates[user_name].append(coord)
+
     # create a table to display the results
     table = PrettyTable()
     table.field_names = ['User', 'Digs', 'Places', 'Total']
@@ -96,6 +117,12 @@ def parseLog(log_file, state_file):
 
     # sort the table by the most actions
     table.sortby = 'Total'
+
+    # calculate the center for each user
+    for user_name, coordinates in user_coordinates.items():
+        center_x, center_y = calculate_center(coordinates)
+        print(f"The center of {user_name}'s build blocks is at ({center_x}, {center_y})")
+        
 
     # send the table to the Telegram bot if it has entries
     if args.telegram and len(action_counts) > 0:
@@ -137,7 +164,8 @@ for root, dirs, files in os.walk(LOG_DIR):
     for file in files:
         if file.endswith('.log'):
             log_file = os.path.join(root, file)
-            state_file = os.path.join(LOG_DIR, file + '.state')
+            state_file = os.path.join(root, file + '.state')
+            print("Processing log file: " + log_file)
             parseLog(log_file, state_file)
             chat_messages.clear()
             action_counts.clear()
