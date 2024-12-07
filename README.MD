@@ -72,5 +72,32 @@ python3 log-analyzer.py --logdir /opt/minetest/logs
 
 
 
-Have fun :-)
+# Cheater und Griefer
+Du hast ein Problem, dass jemand grieft, und du weißt nicht, wer es ist? Er ändert immer seinen Namen?
+Sorge dich nicht, das ist die Lösung:
+```
+minetest-log-analyzer git:(main) ✗ python3 cheat.py logs/15.log
+​
+Gefundene IPs mit mehreren Usernames:
+​
+IP: 192.168.88.56
+Usernames: Mentor, holger
+​
+IP: 192.168.88.178
+Usernames: ENIS, Nisibro
+​
+IP: 192.168.88.204
+```
+
+So findest du Leute, die sich vom selben Computer mit verschiedenen IPs anmelden 
+​
+Achtung - geht nur, wenn jeder User eine eigene IP hat. Also zum Beispiel im "eigenen" WLAN mit lokalem Server. Wenn alle über eine IP im Internetz sind, haben alle die gleiche IP
+
+```
+/kick @User - wirft den User einmal vom Server (nach Name)
+/ban @User - bannt die IP des Users - OBACHT - funktioniert nur bei lokasem Server, bei
+```
+
+
+# Have fun :-)
 
