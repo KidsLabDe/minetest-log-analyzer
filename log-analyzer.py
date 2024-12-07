@@ -171,3 +171,4 @@ for root, dirs, files in os.walk(LOG_DIR):
             action_counts.clear()
 
             # read the last line of the log file that was parsed
+
