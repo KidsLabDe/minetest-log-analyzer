@@ -44,7 +44,7 @@ for root, dirs, files in os.walk(LOG_DIR):
     for file in files:
         if file.endswith('.log'):
             log_file = os.path.join(root, file)
-            state_file = os.path.join(LOG_DIR, file + '.state')
+            state_file = os.path.join(root, file + '.state')
 
             # read the last line of the log file that was parsed
             last_line = ''
